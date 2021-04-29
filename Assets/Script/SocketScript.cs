@@ -36,7 +36,16 @@ public class SocketScript : MonoBehaviour
             try
             {
                 Debug.Log(Constants.URL_SOCKET);
-                socket = IO.Socket(Constants.URL_SOCKET);
+                IO.Options sockopts = new IO.Options();
+
+                sockopts.Reconnection = false;
+                sockopts.ReconnectionAttempts = 10000;
+                sockopts.ReconnectionDelay = 10000;
+                sockopts.ReconnectionDelayMax = 10000;
+                sockopts.Timeout = 500;
+                sockopts.AutoConnect = false;
+                socket = IO.Socket(Constants.URL_SOCKET, sockopts);
+                socket.Connect();
             }
             catch (Exception e)
             {
